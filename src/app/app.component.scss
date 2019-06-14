@@ -1,0 +1,35 @@
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox. 
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+.sticky-header {
+    position: sticky;
+}
+.main-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+}
+.logo {width: 100px;height: 100px; margin: 10px auto;}
+.side-nav-controls {width: 200px; margin-top: 30px;}
+.fa {font-size: 17px; }
+.view-container { margin: 20px;}
+a {
+  display: block;
+  text-decoration: none;
+  color: #54667a;
+  transition: all 0.4s ease-in-out;
+}
+
+mat-header h1 {
+    margin: 17px 0 16px;
+    font-size: 1.25rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.00833em;
+}
