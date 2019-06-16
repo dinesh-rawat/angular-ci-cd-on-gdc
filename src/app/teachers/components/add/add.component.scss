@@ -1,0 +1,35 @@
+label {color: #4c4c4c;}
+.spacer {margin-top: 8px !important;
+}
+
+label, input {
+  font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1.2em;
+}
+
+    input[data-size=half] {
+    width: 274px
+    }
+label {
+    padding-top: 10px;
+}
+.half mat-form-field:last-child {
+  margin-left: 16px !important;
+}
+.block mat-form-field {width: calc(100%);
+}
+
+.half mat-form-field {
+  width: 50%;
+  &:last-child { width: calc(50% - 16px); }
+}
+.file-upload-wrapper {text-align: center;}
+.mat-button-file {
+    height: 60px;
+    padding-right: 28px;
+    padding-bottom: 22px;
+  .upload-button {font-size:40px;}
+}

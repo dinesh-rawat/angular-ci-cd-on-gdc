@@ -1,9 +1,8 @@
-<h1>TEACHERS <button mat-raised-button color="primary"(click)="addTeacher()" class="float-right">+ ADD</button></h1>
+<h1>TEACHERS <button mat-raised-button color="accent"(click)="addTeacher()" class="float-right">+ ADD</button></h1>
 
 <mat-form-field>
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
 </mat-form-field>
-
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
@@ -55,4 +54,4 @@
   </tr>
 </table>
 
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>

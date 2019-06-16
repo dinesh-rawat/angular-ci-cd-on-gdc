@@ -1,4 +1,184 @@
-<h1 mat-dialog-title>Add Teacher</h1>
+<h1 mat-dialog-title>Teacher Registration Form 
+<mat-icon aria-hidden="false" aria-label="Close" class="float-right mat-close-icon" (click)="close();">close</mat-icon>
+</h1>
 <div mat-dialog-content>
-  Testing
-</div>
+   <mat-horizontal-stepper [linear]="isLinear" #stepper>
+   <mat-step [stepControl]="teacherForm">
+      <form [formGroup]="teacherForm" (submit)="saveBasicDetails()">
+         <ng-template matStepLabel>Basic</ng-template>
+         <div class="half">
+            <mat-form-field>
+               <input cdkFocusInitial matInput formControlName="firstName" id="firstName" placeholder="First Name" required>
+            </mat-form-field>
+            <mat-form-field>
+               <input matInput formControlName="lastName" id="lastName
+                  " placeholder="Last name">
+            </mat-form-field>
+         </div>
+         <div class="half" formGroupName="father">
+            <mat-form-field>
+               <input matInput formControlName="fatherFirstName" id="firstName" placeholder="Guardian First Name" required>
+            </mat-form-field>
+            <mat-form-field>
+               <input matInput formControlName="fatherLastName" id="lastName
+                  " placeholder="Guardian Last Name">
+            </mat-form-field>
+         </div>
+         <div class="half">
+            <mat-form-field>
+               <input matInput formControlName="knownLanguages" id="knownLanguages" placeholder="Language(s) Known" required/>
+            </mat-form-field>
+            <mat-form-field>
+               <input matInput [matDatepicker]="dob" formControlName="dob" placeholder="Date of Birth: MM/DD/YYYY"  required>
+               <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+               <mat-datepicker #dob></mat-datepicker>
+            </mat-form-field>
+         </div>
+         <div class="half" formGroupName="englishLanguage">
+            <label data-role="label" for="englishLanguage">
+               English language
+               <span class="float-right">
+                  <mat-checkbox formControlName="read">Read</mat-checkbox>
+                  &nbsp;&nbsp;
+                  <mat-checkbox formControlName="write">Write</mat-checkbox>
+                  &nbsp;&nbsp;
+                  <mat-checkbox formControlName="speak">Speak</mat-checkbox>
+                  &nbsp;&nbsp;
+                  <mat-checkbox formControlName="understand">Understand</mat-checkbox>
+               </span>
+            </label>
+         </div>
+         <br/>
+         <div class="block">
+            <button [disabled]="teacherForm.invalid || teacherForm.prestine" mat-raised-button color="accent" aria-label="Save teacher details" matStepperNext>Next</button>
+         </div>
+      </form>
+   </mat-step>
+   <mat-step [stepControl]="addressForm">
+      <form [formGroup]="addressForm" (submit)="saveAddress()">
+         <ng-template matStepLabel>Communication & Banking</ng-template>
+         <h1 mat-dialog-title>Communication Details</h1>
+         <div class="half">
+            <mat-form-field>
+               <input cdkFocusInitial matInput placeholder="Phone Number" formControlName="contactNumber" required autofocus="autofocus" maxlength="10">
+            </mat-form-field>
+            <mat-form-field>
+               <input matInput placeholder="Emergency Contact number" formControlName="emergencyContactNumber" required maxlength="10">
+            </mat-form-field>
+         </div>
+         <div class="block">
+            <mat-form-field>
+               <input matInput placeholder="Email Address" formControlName="email" required>
+            </mat-form-field>
+         </div>
+         <div class="half">
+            <mat-form-field>
+               <textarea matInput placeholder="Communication Address" formControlName="communicationAddress" required
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="20"
+                  > </textarea>
+            </mat-form-field>
+            <mat-form-field>
+               <textarea matInput placeholder="Permanent Address" formControlName="permanentAddress" required
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="25"
+                  ></textarea>
+            </mat-form-field>
+         </div>
+
+         <h1 mat-dialog-title>Banking Details</h1>
+         <div class="half">
+         	<mat-form-field>
+               <input matInput placeholder="Account Number" formControlName="accountNumber" required>
+            </mat-form-field>
+            <mat-form-field>
+               <input matInput placeholder="Account Name" formControlName="accountName" required>
+            </mat-form-field>
+         </div>
+
+         <div class="half">
+         	<mat-form-field>
+               <input matInput placeholder="Bank" formControlName="bank" required>
+            </mat-form-field>
+
+            <mat-form-field>
+               <input matInput placeholder="IFSC Code" formControlName="ifsc" required>
+            </mat-form-field>
+         </div>
+         <div>
+            <button mat-button color="accent" aria-label="Save teacher details" matStepperNext matStepperPrevious>Back</button>
+            &nbsp;&nbsp;
+            <button mat-raised-button color="accent" aria-label="Save teacher details" matStepperNext  [disabled]="addressForm.invalid || addressForm.prestine" >Next</button>
+         </div>
+      </form>
+   </mat-step>
+   <mat-step [stepControl]="educationForm">
+      <form [formGroup]="educationForm" (submit)="saveEducation()">
+         <ng-template matStepLabel>Education & Experience(s)</ng-template>
+         <h1 mat-dialog-title>Educational Details</h1>
+         <div class="half">
+            <mat-form-field>
+               <input matInput formControlName="qualification" id="qualification" placeholder="Qualification" required />
+            </mat-form-field>
+            <mat-form-field>
+               <input matInput formControlName="institute" id="institute"placeholder="Institute" required />
+            </mat-form-field>
+         </div>
+         <div class="half">
+            <mat-form-field>
+               <input matInput formControlName="board" id="board"
+                  placeholder="Board" required
+                  />
+            </mat-form-field>
+            <mat-form-field>
+               <input matInput formControlName="marks" id="marks" placeholder="Marks/Grade" required />
+            </mat-form-field>
+         </div>
+         
+         <h1 mat-dialog-title>Experience(s)</h1>
+         <div class="half">
+            <mat-form-field>
+               <input matInput formControlName="period" id="period" placeholder="Period" required/>
+            </mat-form-field>
+            <mat-form-field>
+               <input matInput formControlName="designation" id="designation" placeholder="Designation" required/>
+            </mat-form-field>
+         </div>
+         <div class="half">
+            <mat-form-field>
+               <input matInput formControlName="organization" id="organization" placeholder="Organization & Address" required/>
+            </mat-form-field>
+            <mat-form-field>
+               <input matInput formControlName="personalAchievements" id="personalAchievements" placeholder="Personal Achievements ( if any)" />
+            </mat-form-field>
+         </div>
+         <div>
+            <button mat-button color="accent" aria-label="Save teacher details" matStepperNext matStepperPrevious>Back</button>
+            &nbsp;&nbsp;
+            <button mat-raised-button color="accent" aria-label="Save teacher details" matStepperNext 
+             [disabled]="educationForm.invalid || educationForm.prestine" >Next</button>
+         </div>
+      </form>
+   </mat-step>
+
+ <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    You are almost done. 
+
+    <h2>Lets upload supportive documents</h2>
+
+    <div class="container">
+
+    <form [formGroup]="fileUploadForm" novalidate (submit)="upload()">
+      <input type="file" (change)="onFileChange($event.target.files)" multiple formControlName="file" required />
+      <br/><br/>
+
+      <button type="submit" [disabled]="fileUploadForm.invalid || fileUploadForm.prestine" mat-raised-button color="accent">Save & Exit</button>
+    </form>
+	</div>
+
+  </mat-step>

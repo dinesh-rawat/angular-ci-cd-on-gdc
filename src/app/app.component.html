@@ -1,11 +1,11 @@
-<mat-drawer-container class="main-container">
+<mat-drawer-container class="main-container" color="warn">
   <mat-drawer #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="!mobileQuery.matches">
-    <div class="logo">
+    <div class="logo" *ngIf="!mobileQuery.matches">
       <img src="./assets/images/logo.png" title="" alt="logo"/>
     </div>
     
     <mat-list class="side-nav-controls">
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="!mobileQuery.matches"></mat-divider>
       <mat-list-item><a routerLink="/"><mat-icon fontSet="fa" fontIcon="fa-home"></mat-icon>
         DASHBOARD</a></mat-list-item>
       <mat-divider></mat-divider>
@@ -17,15 +17,17 @@
   </mat-drawer>
 
   <mat-drawer-content>
-    <mat-toolbar color="primary" class="sticky-header">
+    <mat-toolbar color="accent" class="sticky-header">
       <mat-toolbar-row>
         <button mat-icon-button (click)="snav.toggle()"
           *ngIf="mobileQuery.matches"
         ><mat-icon fontSet="fa" fontIcon="fa-bars"></mat-icon></button>
-        <h1>Custom Toolbar</h1>
-        <span class="fill-remaining-space"></span>
-        <button mat-button>Primary</button>
-        <button mat-button>Primary</button>
+        <h1 *ngIf="mobileQuery.matches" class="full-screen-logo logo">
+            <img src="./assets/images/logo_trasparent.png" title="" alt="logo"/>
+        </h1>
+        <span class="fill-remaining-space" *ngIf="mobileQuery.matches"></span>
+        <button mat-button *ngIf="!mobileQuery.matches">Primary</button>
+        <button mat-button *ngIf="!mobileQuery.matches">Primary</button>
       </mat-toolbar-row>
     </mat-toolbar>
     <div class="view-container">

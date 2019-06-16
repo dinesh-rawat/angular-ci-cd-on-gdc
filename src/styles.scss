@@ -4,3 +4,11 @@ body{
     margin: 0%;
 }
 .float-right {float: right;}
+.blue-snackbar {
+      background: #ff4081;
+    color: #fff;
+        font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+.mat-close-icon {top: -21px; right: -16px;position: relative; cursor:pointer;}

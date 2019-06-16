@@ -5,6 +5,8 @@ import { AddComponent } from '../add/add.component';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {SuccessComponent} from './success.component';
 
 export interface PeriodicElement {
   name: string;
@@ -40,8 +42,9 @@ export class ListComponent {
   selection = new SelectionModel<PeriodicElement>(true, []);
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  durationInSeconds = 5;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.dataSource.sort = this.sort;
@@ -75,6 +78,17 @@ export class ListComponent {
   }
 
   addTeacher() {
-    this.dialog.open(AddComponent);
+    let dialogRef = this.dialog.open(AddComponent, {disableClose: true});
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && result.isSaved)
+        this.openSnackBar();
+    });
+  }
+
+  openSnackBar() {
+    this._snackBar.openFromComponent(SuccessComponent, {
+      duration: this.durationInSeconds * 1000,
+      panelClass: ['blue-snackbar']
+    });
   }
 }
