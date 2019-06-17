@@ -78,7 +78,7 @@ export class ListComponent {
   }
 
   addTeacher() {
-    let dialogRef = this.dialog.open(AddComponent, {disableClose: true});
+    let dialogRef = this.dialog.open(AddComponent, {disableClose: true, width: '70%', height: '90vh'});
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.isSaved)
         this.openSnackBar();

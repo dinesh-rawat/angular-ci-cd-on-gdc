@@ -11,4 +11,13 @@ body{
     font-size: 14px;
     font-weight: 500;
 }
-.mat-close-icon {top: -21px; right: -16px;position: relative; cursor:pointer;}
+.mat-close-icon {position: relative; cursor:pointer;}
+.mat-dialog-content {
+	max-height: 74vh;
+}
+
+mat-dialog-container {overflow-y: hidden!important;}
+.mat-dialog-content {max-height: 75vh!important;}
+/deep/ .mat-dialog-content {
+    overflow-y: hidden !important;
+}

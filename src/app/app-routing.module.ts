@@ -6,7 +6,7 @@ const routes: Routes = [{
 		loadChildren: './dashboard/dashboard.module#DashboardModule',
 		pathMatch: 'full'
 	}, {
-		path: 'teachers',
+		path: 'staff',
 		loadChildren: './teachers/teachers.module#TeachersModule',
 	}];
 
