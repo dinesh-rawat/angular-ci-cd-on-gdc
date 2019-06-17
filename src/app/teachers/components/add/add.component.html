@@ -173,11 +173,35 @@
 
     <div class="container">
 
-    <form [formGroup]="fileUploadForm" novalidate (submit)="upload()">
-      <input type="file" (change)="onFileChange($event.target.files)" multiple formControlName="file" required />
-      <br/><br/>
+    <form [formGroup]="fileUploadForm">
+      <button mat-raised-button color="primary"
+              (click)="onClick($event)"
+      >
+        <mat-icon>add</mat-icon>
+        {{chooseLabel}}</button>
+      <input #fileUpload
+             multiple
+             type="file"
+             class="input_fileupload--hidden"
+             (input)="onInput($event)"
+             (change)="onFileSelected($event)"
+             required
+             formControlName="file">
 
-      <button type="submit" [disabled]="fileUploadForm.invalid || fileUploadForm.prestine" mat-raised-button color="accent">Save & Exit</button>
+      <div *ngFor="let f of files">
+        <span>{{f.name}}</span>
+        <button mat-icon-button
+                color="primary"
+                title="Cancel"
+                (click)="removeFile($event,f)"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <br/><br/>
+      <button type="submit" [disabled]="fileUploadForm.invalid || fileUploadForm.prestine" mat-raised-button color="accent" (click)="upload">Save & Exit</button>
+
     </form>
 	</div>
 
