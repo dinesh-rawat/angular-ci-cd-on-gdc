@@ -51,7 +51,7 @@ export class AddComponent implements OnInit {
   chooseLabel = 'Choose';
   filteredPositions: Observable < any > ;
   maxDate: any;
-
+  today: any;
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef, private http: HttpClient,
     public dialogRef: MatDialogRef < AddComponent > ,
     private sanitizer: DomSanitizer
@@ -59,9 +59,8 @@ export class AddComponent implements OnInit {
     const year = new Date().getFullYear();
     const month = new Date().getMonth();
     const day = new Date().getDate();
-
+    this.today = new Date();
     this.maxDate = new Date(year-18, month-1, day);
-console.log(this.maxDate)
     this.filteredPositions = this.positionCtrl.valueChanges
       .pipe(
         startWith(''),
@@ -208,7 +207,7 @@ console.log(this.maxDate)
       }),
       dob: ['', Validators.required],
       doj: ['', Validators.required],
-      positions: ['', Validators.required],
+      positions: [''],
       knownLanguages: ['', Validators.required],
       englishLanguage: this.fb.group({
         read: [''],
@@ -222,10 +221,10 @@ console.log(this.maxDate)
       communicationAddress: ['', Validators.required],
       permanentAddress: ['', Validators.required],
       email: ['', [Validators.email]],
-      contactNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
-      emergencyContactNumber: ['', [Validators.required, , Validators.maxLength(10), Validators.minLength(10)]],
+      contactNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern("^[0-9]*$")]],
+      emergencyContactNumber: ['', [Validators.required, , Validators.maxLength(10), Validators.minLength(10), Validators.pattern("^[0-9]*$")]],
 
-      accountNumber: ['', Validators.required],
+      accountNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
       accountName: ['', Validators.required],
       bank: ['', Validators.required],
       ifsc: ['', Validators.required],
@@ -287,19 +286,59 @@ console.log(this.maxDate)
 
   }
 
-  upload() {
-    //  const data: FormData = new FormData();
-    //    Array.from(this.files).forEach(file => data.append('files', file))
-    this.dialogRef.close({
-      isSaved: true
-    });
-  }
-
   close() {
     this.dialogRef.close();
   }
 
   setPosition(value) {
     this.positionOffering = value;
+  }
+
+  saveTeacherForm() {
+    this.teacherForm;    
+  }
+
+  saveAddressForm() {
+    this.addressForm;
+  }
+
+  saveEducationForm() {
+    this.educationForm;
+  }
+
+  saveFileUploadForm() {
+          var request = new XMLHttpRequest();
+
+   const payload: any = {
+     staff: this.teacherForm.value,
+     address: this.addressForm.value,
+     education: this.educationForm.value     
+   }
+  
+
+    const files = this.files;
+    var documents = Array.prototype.reduce.call(
+        files,
+        function (formData, file, i) {
+          const name = file.name.replace(/\.[^/.]+$/, "");
+          formData.append(name + i, file);
+          if(files.length -1 === i) {
+            formData.append('payload', JSON.stringify(payload))
+          }
+          return formData;
+        },
+        new FormData()
+      );
+
+
+     request.open('POST', '/TEST');
+      // want to distinguish from non-JS submits?
+      request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+      request.send(documents);
+
+   
+    this.dialogRef.close({
+      isSaved: true
+    });
   }
 }

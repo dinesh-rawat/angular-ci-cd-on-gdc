@@ -16,8 +16,9 @@ body{
 	max-height: 74vh;
 }
 
-mat-dialog-container {overflow-y: hidden!important;}
-.mat-dialog-content {max-height: 75vh!important;}
-/deep/ .mat-dialog-content {
-    overflow-y: hidden !important;
+mat-dialog-container {overflow-y: hidden!important; overflow-x: hidden!important;}
+.mat-dialog-content {max-height: 75vh!important; overflow-x: hidden !important;}
+
+.mat-dialog-container {
+  
 }

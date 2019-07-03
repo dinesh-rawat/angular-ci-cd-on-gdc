@@ -10,7 +10,10 @@
    </ng-template>
    <div class="block">
       <mat-form-field>
-         <input matInput placeholder="Offered Position" aria-label="Offered Position" [matAutocomplete]="auto" [formControl]="positionCtrl" required>
+         <input matInput placeholder="Offered Position/Designation" aria-label="Offered Position" [matAutocomplete]="auto" [formControl]="positionCtrl" required>
+         <mat-error>
+            <span *ngIf="!positionCtrl?.value">Position being offered is required</span>
+         </mat-error>
          <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let position of filteredPositions | async" [value]="position.value">
             <span>{{position.viewValue}}</span>
@@ -22,11 +25,13 @@
       <mat-form-field>
          <input cdkFocusInitial  matInput formControlName="positions" [value]="['PGT', 'TGT', 'PRT'].indexOf(positionCtrl.value) > -1? positionCtrl.value + '- ': positionCtrl.value"
             placeholder="Comma-separated: Subjects/Departments" 
-            required
-            >
+         >
       </mat-form-field>
       <mat-form-field>
-         <input matInput [matDatepicker]="doj" formControlName="doj" placeholder="Date of Joining: MM/DD/YYYY"  required>
+         <input matInput [matDatepicker]="doj" formControlName="doj" placeholder="Date of Joining: MM/DD/YYYY" [max]="today" required>
+         <mat-error>
+                <span *ngIf="teacherForm?.controls.doj?.errors?.required"> D.O.J is required</span>
+            </mat-error>
          <mat-datepicker-toggle matSuffix [for]="doj"></mat-datepicker-toggle>
          <mat-datepicker #doj></mat-datepicker>
       </mat-form-field>
@@ -34,6 +39,9 @@
    <div class="half">
       <mat-form-field>
          <input matInput formControlName="firstName" placeholder="First Name" required>
+            <mat-error>
+                <span *ngIf="teacherForm?.controls.firstName?.errors?.required">First name is required</span>
+            </mat-error>
       </mat-form-field>
       <mat-form-field>
          <input matInput formControlName="lastName" id="lastName" placeholder="Last Name">
@@ -42,6 +50,9 @@
    <div class="half" formGroupName="father">
       <mat-form-field>
          <input matInput formControlName="fatherFirstName" placeholder="Guardian First Name" required>
+            <mat-error>
+                <span *ngIf="teacherForm?.controls.fatherFirstName?.errors?.required"> Guardian's first name is required</span>
+            </mat-error>
       </mat-form-field>
       <mat-form-field>
          <input matInput formControlName="fatherLastName" id="lastName
@@ -51,10 +62,17 @@
    <div class="half">
       <mat-form-field>
          <input matInput formControlName="knownLanguages" id="knownLanguages" placeholder="Language(s) Known" required/>
+
+         <mat-error>
+                <span *ngIf="teacherForm?.controls.knownLanguages?.errors?.required"> Known languages is required</span>
+            </mat-error>
       </mat-form-field>
       <mat-form-field>
          <input matInput [matDatepicker]="dob" formControlName="dob" placeholder="Date of Birth: MM/DD/YYYY" required 
          [max]="maxDate">
+           <mat-error>
+                <span *ngIf="teacherForm?.controls.dob?.errors?.required"> D.O.B is required</span>
+            </mat-error>
          <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
          <mat-datepicker #dob></mat-datepicker>
       </mat-form-field>
@@ -75,7 +93,7 @@
    </div>
    <br/>
    <div class="block">
-      <button [disabled]="teacherForm.invalid || teacherForm.prestine" mat-raised-button color="accent" aria-label="Save teacher details" matStepperNext>Next</button>
+      <button [disabled]="teacherForm.invalid || teacherForm.prestine" mat-raised-button color="accent" aria-label="Save staff details" matStepperNext>Next</button>
    </div>
    </form>
 </mat-step>
@@ -86,14 +104,32 @@
    <div class="half">
       <mat-form-field>
          <input matInput placeholder="Phone Number" formControlName="contactNumber" required  maxlength="10">
+            <mat-error>
+                <div *ngIf="addressForm?.controls.contactNumber?.errors?.required">Phone no. is required</div>
+                <div *ngIf="addressForm?.controls.contactNumber?.errors?.minlength">Minimum Length is 10</div>
+                <div *ngIf="addressForm?.controls.contactNumber?.errors?.maxlength">Maximum Length is 10</div>
+                <div *ngIf="addressForm?.controls.contactNumber?.errors?.pattern">Phone no. is invalid</div>
+            </mat-error>
+
       </mat-form-field>
       <mat-form-field>
          <input matInput placeholder="Emergency Contact number" formControlName="emergencyContactNumber" required maxlength="10">
+            <mat-error>
+                <div *ngIf="addressForm?.controls.emergencyContactNumber?.errors?.required">Emergency contact is required</div>
+
+                <div *ngIf="addressForm?.controls.emergencyContactNumber?.errors?.pattern">Emergency contact is invalid</div>
+
+                <div *ngIf="addressForm?.controls.emergencyContactNumber?.errors?.minlength">Minimum Length is 10</div>
+                <div *ngIf="addressForm?.controls.emergencyContactNumber?.errors?.maxlength">Maximum Length is 10</div>
+            </mat-error>
       </mat-form-field>
    </div>
    <div class="block">
       <mat-form-field>
-         <input matInput placeholder="Email Address" formControlName="email" required>
+         <input matInput placeholder="Email Address" formControlName="email">
+         <mat-error>
+                <span *ngIf="addressForm?.controls.email?.errors?.email">Email is invalid</span>
+            </mat-error>
       </mat-form-field>
    </div>
    <div class="half">
@@ -104,6 +140,10 @@
             cdkAutosizeMinRows="1"
             cdkAutosizeMaxRows="20"
             > </textarea>
+            <mat-error>
+                <span *ngIf="addressForm?.controls.communicationAddress?.errors?.required">Communication address is required</span>
+            </mat-error>
+
       </mat-form-field>
       <mat-form-field>
          <textarea matInput placeholder="Permanent Address" formControlName="permanentAddress" required
@@ -112,6 +152,10 @@
             cdkAutosizeMinRows="1"
             cdkAutosizeMaxRows="25"
             ></textarea>
+
+            <mat-error>
+                <span *ngIf="addressForm?.controls.permanentAddress?.errors?.required">Permanent address is required</span>
+            </mat-error>
       </mat-form-field>
    </div>
    <h1 mat-dialog-title>Banking Details <mat-icon
@@ -124,28 +168,41 @@
    <div class="half">
       <mat-form-field>
          <input matInput placeholder="Account Number" formControlName="accountNumber" required>
+            <mat-error>
+                <span *ngIf="addressForm?.controls.accountNumber?.errors?.required">Account no. is required</span>
+                <span *ngIf="addressForm?.controls.accountNumber?.errors?.pattern">Account no. is invalid</span>
+            </mat-error>
       </mat-form-field>
       <mat-form-field>
          <input matInput placeholder="Account Name" formControlName="accountName" required>
+         <mat-error>
+                <span *ngIf="addressForm?.controls.accountName?.errors?.required">Account name is required</span>
+            </mat-error>
       </mat-form-field>
    </div>
    <div class="half">
       <mat-form-field>
          <input matInput placeholder="Bank" formControlName="bank" required>
+         <mat-error>
+                <span *ngIf="addressForm?.controls.bank?.errors?.required">Bank is required</span>
+            </mat-error>
       </mat-form-field>
       <mat-form-field>
          <input matInput placeholder="IFSC Code" formControlName="ifsc" required>
+         <mat-error>
+                <span *ngIf="addressForm?.controls.ifsc?.errors?.required">IFSC code is required</span>
+            </mat-error>
       </mat-form-field>
    </div>
    <div>
-      <button mat-button color="accent" aria-label="Save teacher details" matStepperNext matStepperPrevious>Back</button>
+      <button mat-button color="accent" aria-label="Save staff details" matStepperNext matStepperPrevious>Back</button>
       &nbsp;&nbsp;
-      <button mat-raised-button color="accent" aria-label="Save teacher details" matStepperNext  [disabled]="addressForm.invalid || addressForm.prestine" >Next</button>
+      <button mat-raised-button color="accent" aria-label="Save staff details" matStepperNext  [disabled]="addressForm.invalid || addressForm.prestine">Next</button>
    </div>
    </form>
 </mat-step>
 <mat-step [stepControl]="educationForm">
-   <form [formGroup]="educationForm" (submit)="saveEducation()">
+   <form [formGroup]="educationForm">
    <ng-template matStepLabel>EDEX</ng-template>
    <h1 mat-dialog-title>Educational Details 
 <mat-icon
@@ -158,9 +215,16 @@
    <div class="half">
       <mat-form-field>
          <input matInput formControlName="qualification" id="qualification" placeholder="Qualification" required />
+
+         <mat-error>
+                <span *ngIf="educationForm?.controls.qualification?.errors?.required">Qualification is required</span>
+            </mat-error>
       </mat-form-field>
       <mat-form-field>
          <input matInput formControlName="institute" id="institute"placeholder="Institute" required />
+            <mat-error>
+                <span *ngIf="educationForm?.controls.institute?.errors?.required">Institute is required</span>
+            </mat-error>
       </mat-form-field>
    </div>
    <div class="half">
@@ -168,9 +232,16 @@
          <input matInput formControlName="board" id="board"
             placeholder="Board" required
             />
+            <mat-error>
+                <span *ngIf="educationForm?.controls.board?.errors?.required">Board is required</span>
+            </mat-error>
       </mat-form-field>
       <mat-form-field>
          <input matInput formControlName="marks" id="marks" placeholder="Marks/Grade" required />
+
+            <mat-error>
+                <span *ngIf="educationForm?.controls.marks?.errors?.required">Marks is required</span>
+            </mat-error>
       </mat-form-field>
    </div>
    <h1 mat-dialog-title>Experience(s) <mat-icon
@@ -182,24 +253,35 @@
    <div class="half">
       <mat-form-field>
          <input matInput formControlName="period" id="period" placeholder="Period" required/>
+            <mat-error>
+                <span *ngIf="educationForm?.controls.marks?.errors?.required">Marks is required</span>
+            </mat-error>
       </mat-form-field>
       <mat-form-field>
          <input matInput formControlName="designation" id="designation" placeholder="Designation" required/>
+
+         <mat-error>
+                <span *ngIf="educationForm?.controls.designation?.errors?.required">Designation is required</span>
+         </mat-error>
       </mat-form-field>
    </div>
    <div class="half">
       <mat-form-field>
          <input matInput formControlName="organization" id="organization" placeholder="Organization & Address" required/>
+
+         <mat-error>
+                <span *ngIf="educationForm?.controls.organization?.errors?.required">Organization is required</span>
+         </mat-error>
       </mat-form-field>
       <mat-form-field>
          <input matInput formControlName="personalAchievements" id="personalAchievements" placeholder="Personal Achievements ( if any)" />
       </mat-form-field>
    </div>
    <div>
-      <button mat-button color="accent" aria-label="Save teacher details" matStepperNext matStepperPrevious>Back</button>
+      <button mat-button color="accent" aria-label="Save staff details" matStepperNext matStepperPrevious>Back</button>
       &nbsp;&nbsp;
-      <button mat-raised-button color="accent" aria-label="Save teacher details" matStepperNext 
-         [disabled]="educationForm.invalid || educationForm.prestine" >Next</button>
+      <button mat-raised-button color="accent" aria-label="Save staff details" matStepperNext 
+         [disabled]="educationForm.invalid || educationForm.prestine">Next</button>
    </div>
    </form>
 </mat-step>
@@ -234,6 +316,7 @@
          (change)="onFileSelected($event)"
          required
          formControlName="file">
+
          <div *ngFor="let f of files">
             <span>{{f.name}}</span>
             <button mat-icon-button
@@ -246,7 +329,7 @@
          </div>
          <br/><br/>
          <div>
-	         <button type="submit" [disabled]="fileUploadForm.invalid || fileUploadForm.prestine" mat-raised-button color="accent" (click)="upload">Save & Exit</button>
+	         <button type="submit" [disabled]="fileUploadForm.invalid || fileUploadForm.prestine" mat-raised-button color="accent" (click)="saveFileUploadForm()">Save & Exit</button>
 	       </div>
       </form>
    </div>
